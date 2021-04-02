@@ -19,32 +19,32 @@ import {
 function Survey() {
   const [selectedTimezone, setSelectedTimezone] = useState('');
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const postURL = "";
-  //   fetch(postURL, {
-  //     method: "POST",
-  //     headers: {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const postURL = "";
+    fetch(postURL, {
+      method: "POST",
+      headers: {
 
-  //     },
-  //     body: JSON.stringify({
-  //       name: name,
-  //       password: password,
-  //       birthday: ,
-  //       preferences: {
-  //         techPref:
-  //         pizzaToppings: [],
-  //         timezone:
-  //       }
-  //     })
-  //     .then(() => {
-  //       alert('Form has been submitted!')
-  //     })
-  //   })
-  // }
+      },
+      body: JSON.stringify({
+        name: "",
+        password: "",
+        birthday: "",
+        preferences: {
+          techPref: "",
+          pizzaToppings: [],
+          timezone: ""
+        }
+      })
+      .then(() => {
+        alert('Form has been submitted!')
+      })
+    })
+  }
 
   return(
-    <div clasName="Form">
+    <div className="Form" onSubmit={handleSubmit}>
       <h1>Koneksa Survey</h1>
       <FormControl >
         <TextField id="outlined-basic" label="Name" variant="outlined" /><br/>
@@ -70,7 +70,7 @@ function Survey() {
         </MuiPickersUtilsProvider>
         <h2>Please select the timezone that you are in.</h2>
         <TimezoneSelect value={selectedTimezone} onChange={setSelectedTimezone} />
-        <RadioGroup aria-label="Tech Preference" name="gender1" >
+        <RadioGroup aria-label="Tech Preference" className="tech" >
           <h2>What is your tech preference?</h2>
           <FormControlLabel value="Front-End" control={<Radio />} label="Front-End" />
           <FormControlLabel value="Back-End" control={<Radio />} label="Back-End" />
@@ -81,8 +81,6 @@ function Survey() {
         <FormControlLabel
           control={
             <Checkbox
-              // checked={state.checkedB}
-              // onChange={handleChange}
               color="primary"
             />
           }
@@ -91,15 +89,13 @@ function Survey() {
         <FormControlLabel
           control={
             <Checkbox
-              // checked={state.checkedB}
-              // onChange={handleChange}
               color="primary"
             />
           }
           label="Pepperoni"
         />
-      </div>
-      <Button>Submit</Button>
+      </div><br />
+      <Button variant="contained" color="primary">Submit</Button>
       </FormControl>
     </div>
   );
