@@ -8,8 +8,7 @@ import {
   FormControlLabel,
   Radio,
   Checkbox,
-  Button,
-  Box
+  Button
 } from '@material-ui/core';
 import TimezoneSelect from 'react-timezone-select';
 import {
@@ -20,7 +19,8 @@ import {
 function Survey() {
   const [selectedTimezone, setSelectedTimezone] = useState('');
 
-  // const handleSubmit = () => {
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
   //   const postURL = "";
   //   fetch(postURL, {
   //     method: "POST",
