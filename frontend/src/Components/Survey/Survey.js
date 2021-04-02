@@ -11,35 +11,42 @@ import {
   Button,
   Box
 } from '@material-ui/core';
-
+import TimezoneSelect from 'react-timezone-select';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 
 function Survey() {
+  const [selectedTimezone, setSelectedTimezone] = useState('');
 
-  const handleSubmit = () => {
-    const postURL = "";
-    fetch(postURL, {
-      method: "POST",
-      headers: {
+  // const handleSubmit = () => {
+  //   const postURL = "";
+  //   fetch(postURL, {
+  //     method: "POST",
+  //     headers: {
 
-      },
-      body: JSON.stringify({
-
-      })
-      .then(() => {
-        alert('Form has been submitted!')
-      })
-    })
-  }
+  //     },
+  //     body: JSON.stringify({
+  //       name: name,
+  //       password: password,
+  //       birthday: ,
+  //       preferences: {
+  //         techPref:
+  //         pizzaToppings: [],
+  //         timezone:
+  //       }
+  //     })
+  //     .then(() => {
+  //       alert('Form has been submitted!')
+  //     })
+  //   })
+  // }
 
   return(
     <div clasName="Form">
-      <Box border={1}>
       <h1>Koneksa Survey</h1>
-      <FormControl onSubmit={handleSubmit}>
+      <FormControl >
         <TextField id="outlined-basic" label="Name" variant="outlined" /><br/>
         <TextField
           id="outlined-password-input"
@@ -61,14 +68,16 @@ function Survey() {
             }}
           />
         </MuiPickersUtilsProvider>
+        <h2>Please select the timezone that you are in.</h2>
+        <TimezoneSelect value={selectedTimezone} onChange={setSelectedTimezone} />
         <RadioGroup aria-label="Tech Preference" name="gender1" >
-          <p>What is your tech preference?</p>
+          <h2>What is your tech preference?</h2>
           <FormControlLabel value="Front-End" control={<Radio />} label="Front-End" />
           <FormControlLabel value="Back-End" control={<Radio />} label="Back-End" />
           <FormControlLabel value="Both" control={<Radio />} label="Both" />
       </RadioGroup>
       <div>
-        What pizza toppings do you like?
+        <h2>What pizza toppings do you like?</h2>
         <FormControlLabel
           control={
             <Checkbox
@@ -92,7 +101,6 @@ function Survey() {
       </div>
       <Button>Submit</Button>
       </FormControl>
-      </Box>
     </div>
   );
 }

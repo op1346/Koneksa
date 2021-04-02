@@ -33,7 +33,7 @@ router.post('/', asyncHandler(async(req, res) => {
   } else {
     const formData = await FormData.create(req.body);
     const formDataId = formData.dataValues.id;
-    res.status(201).location(`/tasks/${taskId}`).end();
+    res.status(201).location(`/formData/${formDataId}`).end();
   }
 }));
 
