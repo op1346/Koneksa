@@ -18,13 +18,28 @@ import {
 } from '@material-ui/pickers';
 
 function Survey() {
-  const [checked, setChecked] = useState(false);
+
+  const handleSubmit = () => {
+    const postURL = "";
+    fetch(postURL, {
+      method: "POST",
+      headers: {
+
+      },
+      body: JSON.stringify({
+
+      })
+      .then(() => {
+        alert('Form has been submitted!')
+      })
+    })
+  }
 
   return(
     <div clasName="Form">
       <Box border={1}>
       <h1>Koneksa Survey</h1>
-      <FormControl>
+      <FormControl onSubmit={handleSubmit}>
         <TextField id="outlined-basic" label="Name" variant="outlined" /><br/>
         <TextField
           id="outlined-password-input"

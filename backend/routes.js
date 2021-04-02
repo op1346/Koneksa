@@ -5,7 +5,7 @@ const { models } = require('./db');
 
 const router = express.Router();
 
-const { FormData } = models;
+const { Form } = models;
 
 function asyncHandler(cb) {
   return async(req, res, next) => {
@@ -19,8 +19,8 @@ function asyncHandler(cb) {
 
 // GET All Form Data
 router.get('/', asyncHandler(async(req, res) => {
-  const tasks = await Task.findAll();
-  res.json(tasks);
+  const formData = await Form.findAll();
+  res.json(formData);
   res.status(200).end();
 }));
 
@@ -31,35 +31,35 @@ router.post('/', asyncHandler(async(req, res) => {
     const errorMessages = errors.array().map(error => error.msg);
     return res.status(400).json({ errors: errorMessages });
   } else {
-    const task = await Task.create(req.body);
-    const taskId = task.dataValues.id;
+    const formData = await FormData.create(req.body);
+    const formDataId = formData.dataValues.id;
     res.status(201).location(`/tasks/${taskId}`).end();
   }
 }));
 
 // PUT Update Form Data
-router.put('/tasks/:id', asyncHandler(async(req, res) => {
+router.put('/formData/:id', asyncHandler(async(req, res) => {
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => error.msg);
     res.status(400).json({ errors: errorMessages });
   }
-  const task = await Task.findByPk(req.params.id);
-  if (task) {
-    const updated = await task.update(req.body);
+  const formData = await FormData.findByPk(req.params.id);
+  if (formData) {
+    const updated = await formData.update(req.body);
     res.status(204).end();
   } else {
-    res.status(404).json({ message: "No tasks found to update" });
+    res.status(404).json({ message: "No data found to update" });
   }
 }));
 
 // DELETE Form Data
-router.delete('/tasks/:id', asyncHandler(async(req, res) => {
-  const task = await Task.findByPk(req.params.id);
-  if (task) {
-    await task.destroy();
+router.delete('/formData/:id', asyncHandler(async(req, res) => {
+  const formData = await FormData.findByPk(req.params.id);
+  if (formData) {
+    await formData.destroy();
     res.status(204).end();
   } else {
-    res.status(404).json({ message: "No tasks found to delete." });
+    res.status(404).json({ message: "No data found to delete." });
   }
 }))
 
