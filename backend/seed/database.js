@@ -4,8 +4,7 @@ const Context = require('./context');
 
 class Database {
   constructor(seedData, enableLogging) {
-    this.tasks = seedData.tasks;
-    this.users = seedData.users;
+    this.formData = seedData.formData;
     this.enableLogging = enableLogging;
     this.context = new Context('tasklist.db', enableLogging);
   }
@@ -29,106 +28,57 @@ class Database {
       `, tableName);
   }
 
-  createUser(user) {
-    return this.context
-      .execute(`
-        INSERT INTO Users
-          (firstName, lastName, emailAddress, password, isAdmin, createdAt, updatedAt)
-        VALUES
-          (?, ?, ?, ?, ?, datetime('now'), datetime('now'));
-      `,
-      user.firstName,
-      user.lastName,
-      user.emailAddress,
-      user.password,
-      user.isAdmin);
-  }
-
-  createTask(task) {
+  createFormData(formDatum) {
     return this.context
       .execute(`
         INSERT INTO Tasks
-          (userId, taskCompleted, title, createdAt, updatedAt)
+          (id, name, password, birthday, preferences: {techPref, pizzaToppings, timezone})
         VALUES
-          (?, ?, ?, datetime('now'), datetime('now'));
+          (?, ?, ?, datetime(), ?:{?, ?, ?});
       `,
-      task.userId,
-      task.taskCompleted,
-      task.title
+      formDatum.id,
+      formDatum.name,
+      formDatum.password,
+      formDatum.birthday,
+      formDatum.preferences.techPref,
+      formDatum.preferences.pizzaToppings,
+      formDatum.preferences.timezone
       );
   }
 
-  async createUsers(users) {
-    for (const user of users) {
-      await this.createUser(user);
+  async createFormData(formDatum) {
+    for (const formDatum of formData) {
+      await this.createTask(formDatum);
     }
   }
 
-  async createTasks(tasks) {
-    for (const task of tasks) {
-      await this.createTask(task);
-    }
-  }
-
-  async init() {
-    const userTableExists = await this.tableExists('Users');
-
-    if (userTableExists) {
-      this.log('Dropping the Users table...');
-
-      await this.context.execute(`
-        DROP TABLE IF EXISTS Users;
-      `);
-    }
-
-    this.log('Creating the Users table...');
-
-    await this.context.execute(`
-      CREATE TABLE Users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        firstName VARCHAR(255) NOT NULL DEFAULT '',
-        lastName VARCHAR(255) NOT NULL DEFAULT '',
-        emailAddress VARCHAR(255) NOT NULL DEFAULT '' UNIQUE,
-        password VARCHAR(255) NOT NULL DEFAULT '',
-        isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
-        createdAt DATETIME NOT NULL,
-        updatedAt DATETIME NOT NULL
-      );
-    `);
-
-    const users = await this.users;
-
-    this.log('Creating the user records...');
-
-    await this.createUsers(users);
-
-    const taskTableExists = await this.tableExists('Tasks');
+    const taskTableExists = await this.tableExists('FormData');
 
     if (taskTableExists) {
-      this.log('Dropping the Tasks table...');
+      this.log('Dropping the FormData table...');
 
       await this.context.execute(`
         DROP TABLE IF EXISTS Tasks;
       `);
     }
 
-    this.log('Creating the Tasks table...');
+    this.log('Creating the FormData table...');
 
     await this.context.execute(`
-      CREATE TABLE Tasks (
+      CREATE TABLE FormData (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        taskCompleted BOOLEAN NOT NULL DEFAULT FALSE,
-        title VARCHAR(255) NOT NULL DEFAULT '',
-        createdAt DATETIME NOT NULL,
-        updatedAt DATETIME NOT NULL,
-        userId INTEGER NOT NULL DEFAULT -1
-          REFERENCES Users (id) ON DELETE CASCADE ON UPDATE CASCADE
+        name string NOT NULL DEFAULT '',
+        password string NOT NULL DEFAULT '',
+        birthday string NOT NULL DEFAULT '',
+        preferences.techPref string NOT NULL DEFAULT '',
+        preferences.pizzaToppings string NOT NULL DEFAULT '',
+        preferences.timezone string NOT NULL DEFAULT ''
       );
     `);
 
-    this.log('Creating the task records...');
+    this.log('Creating the formDatum records...');
 
-    await this.createTasks(this.tasks);
+    await this.createformData(this.formData);
 
     this.log('Database successfully initialized!');
   }
