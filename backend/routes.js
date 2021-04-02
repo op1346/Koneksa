@@ -5,7 +5,7 @@ const { models } = require('./db');
 
 const router = express.Router();
 
-const { Form } = models;
+const { FormData } = models;
 
 function asyncHandler(cb) {
   return async(req, res, next) => {
@@ -19,7 +19,7 @@ function asyncHandler(cb) {
 
 // GET All Form Data
 router.get('/', asyncHandler(async(req, res) => {
-  const formData = await Form.findAll();
+  const formData = await FormData.findAll();
   res.json(formData);
   res.status(200).end();
 }));

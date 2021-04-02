@@ -8,7 +8,7 @@
     "sequelize": "^6.3.4",
     "sqlite3": "^5.0.2"
   },
-  "name": "ongo",
+  "name": "Koneksa",
   "version": "1.0.0",
   "main": "app.js",
   "devDependencies": {

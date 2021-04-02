@@ -18,12 +18,16 @@ module.exports = (sequelize) => {
     birthday: {
       type: Sequelize.DATE
     },
-    preferences: {
-      techPref: Sequelize.STRING,
-      pizzaToppings: Sequelize.STRING,
-      timezone: Sequelize.STRING
+    techPref: {
+      type: Sequelize.STRING
+    },
+    pizzaToppings: {
+      type: Sequelize.STRING
+    },
+    timezone: {
+      type: Sequelize.STRING
     }
   }, { sequelize });
 
-  return Task;
+  return FormData;
 }

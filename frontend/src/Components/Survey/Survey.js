@@ -21,21 +21,16 @@ function Survey() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const postURL = "";
+    const postURL = "http://localhost:5000/";
     fetch(postURL, {
       method: "POST",
-      headers: {
-
-      },
       body: JSON.stringify({
         name: "",
         password: "",
         birthday: "",
-        preferences: {
-          techPref: "",
-          pizzaToppings: [],
-          timezone: ""
-        }
+        techPref: "",
+        pizzaToppings: "",
+        timezone: ""
       })
       .then(() => {
         alert('Form has been submitted!')
@@ -61,8 +56,6 @@ function Survey() {
             id="date-picker-dialog"
             label="Birthday"
             format="MM/dd/yyyy"
-            // value={selectedDate}
-            // onChange={handleDateChange}
             KeyboardButtonProps={{
               'aria-label': 'change date',
             }}

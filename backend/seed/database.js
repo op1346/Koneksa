@@ -4,9 +4,9 @@ const Context = require('./context');
 
 class Database {
   constructor(seedData, enableLogging) {
-    this.formData = seedData.formData;
+    this.formDatas = seedData.formDatas;
     this.enableLogging = enableLogging;
-    this.context = new Context('tasklist.db', enableLogging);
+    this.context = new Context('form.db', enableLogging);
   }
 
   log(message) {
@@ -28,57 +28,58 @@ class Database {
       `, tableName);
   }
 
-  createFormData(formDatum) {
+  createFormData(formData) {
     return this.context
       .execute(`
-        INSERT INTO Tasks
-          (id, name, password, birthday, preferences: {techPref, pizzaToppings, timezone})
+        INSERT INTO FormDatas
+          (id, name, password, birthday, techPref, pizzaToppings, timezone)
         VALUES
-          (?, ?, ?, datetime(), ?:{?, ?, ?});
+          (?, ?, ?, ?, ?, ?, ?);
       `,
-      formDatum.id,
-      formDatum.name,
-      formDatum.password,
-      formDatum.birthday,
-      formDatum.preferences.techPref,
-      formDatum.preferences.pizzaToppings,
-      formDatum.preferences.timezone
+      formData.id,
+      formData.name,
+      formData.password,
+      formData.birthday,
+      formData.techPref,
+      formData.pizzaToppings,
+      formData.timezone
       );
   }
 
-  async createFormData(formDatum) {
-    for (const formDatum of formData) {
-      await this.createTask(formDatum);
+  async createFormDatas(formDatas) {
+    for (const formData of formDatas) {
+      await this.createFormData(formData);
     }
   }
 
-    const taskTableExists = await this.tableExists('FormData');
+  async init() {
+    const formDataTableExists = await this.tableExists('FormDatas');
 
-    if (taskTableExists) {
-      this.log('Dropping the FormData table...');
+    if (formDataTableExists) {
+      this.log('Dropping the FormDatas table...');
 
       await this.context.execute(`
-        DROP TABLE IF EXISTS Tasks;
+        DROP TABLE IF EXISTS FormDatas;
       `);
     }
 
-    this.log('Creating the FormData table...');
+    this.log('Creating the FormDatas table...');
 
     await this.context.execute(`
-      CREATE TABLE FormData (
+      CREATE TABLE FormDatas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name string NOT NULL DEFAULT '',
-        password string NOT NULL DEFAULT '',
-        birthday string NOT NULL DEFAULT '',
-        preferences.techPref string NOT NULL DEFAULT '',
-        preferences.pizzaToppings string NOT NULL DEFAULT '',
-        preferences.timezone string NOT NULL DEFAULT ''
+        name STRING NOT NULL DEFAULT '',
+        password STRING NOT NULL DEFAULT '',
+        birthday STRING NOT NULL DEFAULT '',
+        techPref STRING NOT NULL DEFAULT '',
+        pizzaToppings STRING NOT NULL DEFAULT '',
+        timezone STRING NOT NULL DEFAULT ''
       );
     `);
 
-    this.log('Creating the formDatum records...');
+    this.log('Creating the FormDatas records...');
 
-    await this.createformData(this.formData);
+    await this.createFormDatas(this.formDatas);
 
     this.log('Database successfully initialized!');
   }
