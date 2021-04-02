@@ -1,0 +1,24 @@
+{
+  "formData": [
+    {
+      "name": "Olivia Park",
+      "password": "password1234",
+      "birthday": "19940930",
+      "preferences": {
+        "techPref": "both",
+        "pizzaToppings": ["cheese", "mushroom", "pepperoni"],
+        "timezone":
+      }
+    },
+    {
+      "name": "Jennifer Lu",
+      "password": "password1111",
+      "birthday": "19940303",
+      "preferences": {
+        "techPref": "both",
+        "pizzaToppings": ["cheese", "mushroom"],
+        "timezone":
+      }
+    }
+  ]
+}
