@@ -5,7 +5,7 @@ const { models } = require('./db');
 
 const router = express.Router();
 
-const { User, Task } = models;
+const { FormData } = models;
 
 function asyncHandler(cb) {
   return async(req, res, next) => {
@@ -17,47 +17,14 @@ function asyncHandler(cb) {
   }
 }
 
-// GET All Tasks
+// GET All Form Data
 router.get('/', asyncHandler(async(req, res) => {
   const tasks = await Task.findAll();
   res.json(tasks);
   res.status(200).end();
 }));
 
-// GET All completed tasks
-router.get('/completed', asyncHandler(async(req, res) => {
-  const tasks = await Task.findAll({
-    where: {
-      "taskCompleted": true
-    }
-  });
-  res.json(tasks);
-  res.status(200).end();
-}));
-
-// GET All incompleted tasks
-router.get('/incomplete', asyncHandler(async(req, res) => {
-  const tasks = await Task.findAll({
-    where: {
-      "taskCompleted": false
-    }
-  });
-  res.json(tasks);
-  res.status(200).end();
-}));
-
-// GET All followed tasks
-router.get('/followed', asyncHandler(async(req, res) => {
-  const userFollow = await User.findAll({
-    where: {
-
-    }
-  });
-  res.json(userFollow);
-  res.status(200).end();
-}));
-
-// POST Add task
+// POST Add Form Data
 router.post('/', asyncHandler(async(req, res) => {
   const user = req.body;
   if (!errors.isEmpty()) {
@@ -70,7 +37,7 @@ router.post('/', asyncHandler(async(req, res) => {
   }
 }));
 
-// PUT updates a task
+// PUT Update Form Data
 router.put('/tasks/:id', asyncHandler(async(req, res) => {
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => error.msg);
@@ -85,45 +52,7 @@ router.put('/tasks/:id', asyncHandler(async(req, res) => {
   }
 }));
 
-// FOLLOW
-router.put('/tasks/:id', asyncHandler(async(req, res) => {
-  const task = await Task.findByPk(req.params.id);
-  if (task) {
-
-  } else {
-    res.status(404).json({ message: "No tasks found" });
-  }
-}));
-
-// UNFOLLOW
-router.put('/tasks/:id', asyncHandler(async(req, res) => {
-  const task = await Task.findByPk(req.params.id);
-  if (task) {
-
-  } else {
-    res.status(404).json({ message: "No tasks found" });
-  }
-}));
-
-//DELETE Tasks by user ID if Admin
-router.delete('/tasks/', asyncHandler(async(req, res) => {
-  const tasks = await Task.findAll({
-    where: req.body.userId
-  });
-  const user = await User.findAll({
-    where: {
-      "isAdmin": true
-    }
-  })
-  if (tasks && user) {
-    await task.destroy();
-    res.status(204).end();
-  } else {
-    res.status(404).json({ message: "No tasks found to delete" });
-  };
-}));
-
-// DELETE individual tasks
+// DELETE Form Data
 router.delete('/tasks/:id', asyncHandler(async(req, res) => {
   const task = await Task.findByPk(req.params.id);
   if (task) {
