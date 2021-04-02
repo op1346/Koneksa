@@ -7,7 +7,7 @@
       "preferences": {
         "techPref": "both",
         "pizzaToppings": ["cheese", "mushroom", "pepperoni"],
-        "timezone":
+        "timezone": "America/Juneau"
       }
     },
     {
@@ -17,7 +17,7 @@
       "preferences": {
         "techPref": "both",
         "pizzaToppings": ["cheese", "mushroom"],
-        "timezone":
+        "timezone": "America/Juneau"
       }
     }
   ]

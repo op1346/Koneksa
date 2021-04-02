@@ -19,9 +19,9 @@ module.exports = (sequelize) => {
       type: Sequelize.DATE
     },
     preferences: {
-      techPref:
+      techPref: Sequelize.STRING,
       pizzaToppings: Sequelize.STRING,
-      timezone:
+      timezone: Sequelize.STRING
     }
   }, { sequelize });
 
